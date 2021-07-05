@@ -23,10 +23,10 @@ jobs:
       - name: npm install
         run: npm install
 
-      - name: Run setup-spark ${{ matrix.hadoop-version }}
+      - name: Run setup-hdfs ${{ matrix.hdfs-version }}
         uses: ./
         with:
-          hadoop-version: ${{ matrix.hadoop-version }}
+          hdfs-version: ${{ matrix.hdfs-version }}
 
-      - name: Check Spark
+      - name: Check hdfs
         run: curl http://localhost:9870
