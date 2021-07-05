@@ -39,14 +39,12 @@ const core = __importStar(__nccwpck_require__(186));
 const tool_cache_1 = __nccwpck_require__(784);
 const child_process_1 = __nccwpck_require__(129);
 const fs = __importStar(__nccwpck_require__(747));
+const util_1 = __nccwpck_require__(669);
+const writeFile = util_1.promisify(fs.writeFile);
 function setup() {
     return __awaiter(this, void 0, void 0, function* () {
+        // Fetch user input.
         const hdfsVersion = core.getInput('hdfs-version');
-        let installFolder = process.env.GITHUB_WORKSPACE + '/../';
-        fs.access(installFolder, fs.constants.W_OK, (err) => {
-            core.info('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store hdfs');
-            installFolder = process.env.GITHUB_WORKSPACE;
-        });
         // Full list here: http://www.apache.org/mirrors/
         //
         // TODO: maybe we need to support user provided download url.
@@ -54,38 +52,21 @@ function setup() {
         // Download hdfs and extract.
         const hdfsTar = yield tool_cache_1.downloadTool(hdfsUrl);
         const hdfsExtractedFolder = yield tool_cache_1.extractTar(hdfsTar);
-        const hdfsHome = yield tool_cache_1.cacheDir(hdfsExtractedFolder, 'hdfs', hdfsVersion);
         const coreSite = `<configuration>
     <property>
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
 </configuration>`;
-        fs.writeFile(`${hdfsHome}/etc/hadoop/core-site.xml`, coreSite, (err) => {
-            if (err) {
-                core.error(err);
-                throw err;
-            }
-        });
+        yield writeFile(`${hdfsExtractedFolder}/etc/hadoop/core-site.xml`, coreSite);
         const hdfsSite = `<configuration>
     <property>
         <name>dfs.replication</name>
         <value>1</value>
     </property>
 </configuration>`;
-        fs.writeFile(`${hdfsHome}/etc/hadoop/hdfs-site.xml`, hdfsSite, (err) => {
-            if (err) {
-                core.error(err);
-                throw err;
-            }
-        });
-        child_process_1.exec(`tree ${hdfsHome}`, (err, stdout, stderr) => {
-            core.debug(stdout);
-            if (err || stderr) {
-                core.error('Error tree');
-                throw new Error(err);
-            }
-        });
+        yield writeFile(`${hdfsExtractedFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
+        const hdfsHome = yield tool_cache_1.cacheDir(hdfsExtractedFolder, 'hdfs', hdfsVersion);
         // Start hdfs daemon.
         child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
             core.debug(stdout);
