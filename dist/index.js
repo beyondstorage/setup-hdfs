@@ -70,7 +70,9 @@ function setup() {
         // Setup self ssh connection.
         const cmd = `ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa &&
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys &&
-chmod 0600 ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys &&
+eval \`ssh-agent\` &&
+ssh-add ~/.ssh/id_rsa
 `;
         child_process_1.exec(cmd, (err, stdout, stderr) => {
             core.info(stdout);
