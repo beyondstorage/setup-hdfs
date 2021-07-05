@@ -33,7 +33,7 @@ function setup() {
     });
 
     // Configure hdfs.
-    const hdfsHome = installFolder + '/hdfs';
+    const hdfsHome = fs.realpathSync(installFolder + '/hdfs');
 
     const coreSite = `<configuration>
     <property>
