@@ -3,8 +3,8 @@ name: 'Setup Apache HDFS'
 description: 'Set up Apache Hadoop/HDFS and add the command-line tools to the PATH.'
 author: 'beyondstorage'
 outputs:
-  hadoop-version:
-    description: "The installed Apache Spark version."
+  hdfs-version:
+    description: "The installed Apache Hadoop version."
 runs:
   using: 'node12'
   main: 'dist/index.js'

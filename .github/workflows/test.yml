@@ -3,8 +3,8 @@ name: Test setup-hdfs action
 on: [ push, pull_request ]
 
 jobs:
-  test-setup-spark:
-    name: Test setup Spark
+  test-setup-hdfs:
+    name: Test setup HDFS
     runs-on: ubuntu-latest
 
     strategy:
