@@ -6,6 +6,9 @@ inputs:
   hdfs-version:
     description: "The installed Apache Hadoop version."
     required: true
+outputs:
+  namenode-addr:
+    description: "The address of namenode."
 runs:
   using: 'node12'
   main: 'dist/index.js'

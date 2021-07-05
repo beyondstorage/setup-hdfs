@@ -73,6 +73,9 @@ ssh-add ~/.ssh/id_rsa
             throw new Error(err);
         }
     })
+
+    core.addPath(`${hdfsHome}/bin`);
+    core.setOutput("namenode-addr", "127.0.0.1:9000");
 }
 
 setup().catch((err) => {
