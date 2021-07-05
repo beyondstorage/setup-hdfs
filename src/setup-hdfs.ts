@@ -59,6 +59,13 @@ function setup() {
         }
     })
 
+    exec(`tree ${hdfsHome}`, (err: any, stdout: any, stderr: any) => {
+        if (err || stderr) {
+            console.log('Error tree');
+            throw new Error(err);
+        }
+    })
+
     // Start hdfs daemon.
     exec(`${hdfsHome}/bin/hdfs namenode -format`, (err: any, stdout: any, stderr: any) => {
         if (err || stderr) {

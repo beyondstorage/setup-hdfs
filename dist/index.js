@@ -78,6 +78,12 @@ function setup() {
             throw new Error(err);
         }
     });
+    child_process_1.exec(`tree ${hdfsHome}`, (err, stdout, stderr) => {
+        if (err || stderr) {
+            console.log('Error tree');
+            throw new Error(err);
+        }
+    });
     // Start hdfs daemon.
     child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
         if (err || stderr) {
