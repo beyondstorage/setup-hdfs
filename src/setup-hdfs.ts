@@ -39,17 +39,17 @@ async function setup() {
 
     // Start hdfs daemon.
     exec(`${hdfsHome}/bin/hdfs namenode -format`, (err: any, stdout: any, stderr: any) => {
-        core.debug(stdout);
-        if (err || stderr) {
-            core.error(stderr);
+        core.info(stdout);
+        core.warning(stderr);
+        if (err) {
             core.error('Error format hdfs namenode');
             throw new Error(err);
         }
     })
     exec(`${hdfsHome}/sbin/start-dfs.sh`, (err: any, stdout: any, stderr: any) => {
-        core.debug(stdout);
-        if (err || stderr) {
-            core.error(stderr);
+        core.info(stdout);
+        core.warning(stderr);
+        if (err) {
             core.error('Error start-dfs');
             throw new Error(err);
         }

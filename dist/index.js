@@ -69,17 +69,17 @@ function setup() {
         const hdfsHome = yield tool_cache_1.cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
         // Start hdfs daemon.
         child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
-            core.debug(stdout);
-            if (err || stderr) {
-                core.error(stderr);
+            core.info(stdout);
+            core.warning(stderr);
+            if (err) {
                 core.error('Error format hdfs namenode');
                 throw new Error(err);
             }
         });
         child_process_1.exec(`${hdfsHome}/sbin/start-dfs.sh`, (err, stdout, stderr) => {
-            core.debug(stdout);
-            if (err || stderr) {
-                core.error(stderr);
+            core.info(stdout);
+            core.warning(stderr);
+            if (err) {
                 core.error('Error start-dfs');
                 throw new Error(err);
             }
