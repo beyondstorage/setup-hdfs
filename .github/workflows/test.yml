@@ -1,0 +1,32 @@
+name: Test setup-hdfs action
+
+on: [ push, pull_request ]
+
+jobs:
+  test-setup-spark:
+    name: Test setup Spark
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        hdfs-version: [ 3.1.1 ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: npm install
+        run: npm install
+
+      - name: Run setup-spark ${{ matrix.hadoop-version }}
+        uses: ./
+        with:
+          hadoop-version: ${{ matrix.hadoop-version }}
+
+      - name: Check Spark
+        run: curl http://localhost:9870
