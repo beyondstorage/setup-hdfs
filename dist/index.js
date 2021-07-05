@@ -33,7 +33,7 @@ function setup() {
     const hdfsVersion = core.getInput('hdfs-version');
     let installFolder = process.env.GITHUB_WORKSPACE + '/../';
     fs.access(installFolder, fs.constants.W_OK, (err) => {
-        console.log('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store hdfs');
+        core.info('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store hdfs');
         installFolder = process.env.GITHUB_WORKSPACE;
     });
     // Full list here: http://www.apache.org/mirrors/
@@ -48,7 +48,7 @@ function setup() {
   ln -s "${installFolder}/hadoop-${hdfsVersion}" ${installFolder}/hdfs`;
     child_process_1.exec(command, (err, stdout, stderr) => {
         if (err || stderr) {
-            console.log('Error downloading the Spark binary');
+            core.error('Error downloading the Spark binary');
             throw new Error(err);
         }
     });
@@ -60,10 +60,10 @@ function setup() {
         <value>hdfs://localhost:9000</value>
     </property>
 </configuration>`;
-    child_process_1.exec(`echo ${coreSite} > ${hdfsHome}/etc/hadoop/core-site.xml`, (err, stdout, stderr) => {
-        if (err || stderr) {
-            console.log('Error setup core-site.xml');
-            throw new Error(err);
+    fs.writeFile(`${hdfsHome}/etc/hadoop/core-site.xml`, coreSite, (err) => {
+        if (err) {
+            core.error(err);
+            throw err;
         }
     });
     const hdfsSite = `<configuration>
@@ -72,16 +72,16 @@ function setup() {
         <value>1</value>
     </property>
 </configuration>`;
-    child_process_1.exec(`echo ${hdfsSite} > ${hdfsHome}/etc/hadoop/hdfs-site.xml`, (err, stdout, stderr) => {
-        if (err || stderr) {
-            console.log('Error setup hdfs-site.xml');
-            throw new Error(err);
+    fs.writeFile(`${hdfsHome}/etc/hadoop/hdfs-site.xml`, hdfsSite, (err) => {
+        if (err) {
+            core.error(err);
+            throw err;
         }
     });
     child_process_1.exec(`tree ${hdfsHome}`, (err, stdout, stderr) => {
         core.debug(stdout);
         if (err || stderr) {
-            console.log('Error tree');
+            core.error('Error tree');
             throw new Error(err);
         }
     });
@@ -89,14 +89,16 @@ function setup() {
     child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
         core.debug(stdout);
         if (err || stderr) {
-            console.log('Error format hdfs namenode');
+            core.error(stderr);
+            core.error('Error format hdfs namenode');
             throw new Error(err);
         }
     });
     child_process_1.exec(`${hdfsHome}/sbin/start-dfs.sh`, (err, stdout, stderr) => {
         core.debug(stdout);
         if (err || stderr) {
-            console.log('Error start-dfs');
+            core.error(stderr);
+            core.error('Error start-dfs');
             throw new Error(err);
         }
     });
@@ -105,7 +107,7 @@ try {
     setup();
 }
 catch (error) {
-    console.log(error);
+    core.error(error);
     core.setFailed(error.message);
 }
 
