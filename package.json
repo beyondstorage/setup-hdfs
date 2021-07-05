@@ -1,0 +1,41 @@
+{
+  "name": "setup-hdfs",
+  "version": "0.0.1",
+  "description": "Setup hdfs action",
+  "main": "dist/index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "ncc": "ncc build lib/setup-hdfs.js",
+    "build": "tsc && ncc build lib/setup-hdfs.js",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beyondstorage/setup-hdfs.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup",
+    "spark"
+  ],
+  "author": "beyondstorage Contributors",
+  "license": "Apache 2.0",
+  "dependencies": {
+    "@actions/core": "^1.4.0",
+    "@actions/io": "^1.1.1",
+    "@actions/tool-cache": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/node": "^12.20.15",
+    "@vercel/ncc": "^0.28.6",
+    "jest": "^25.5.4",
+    "jest-circus": "^25.5.4",
+    "prettier": "^2.3.2",
+    "ts-jest": "^25.5.1",
+    "typescript": "^3.9.10"
+  }
+}

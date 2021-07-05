@@ -1,0 +1,32 @@
+name: Test setup-hdfs
+
+on: [ push, pull_request ]
+
+jobs:
+  test-setup-hdfs:
+    name: Test setup HDFS
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        hdfs-version: [ 3.3.1 ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: npm install
+        run: npm install
+
+      - name: Run setup-hdfs ${{ matrix.hdfs-version }}
+        uses: ./
+        with:
+          hdfs-version: ${{ matrix.hdfs-version }}
+
+      - name: Check hdfs
+        run: curl http://localhost:9870

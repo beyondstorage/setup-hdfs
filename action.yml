@@ -1,0 +1,17 @@
+---
+name: 'Setup Apache HDFS'
+description: 'Set up Apache Hadoop/HDFS and add the command-line tools to the PATH.'
+author: 'beyondstorage'
+inputs:
+  hdfs-version:
+    description: "The installed Apache Hadoop version."
+    required: true
+outputs:
+  namenode-addr:
+    description: "The address of namenode."
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'star'
+  color: 'orange'
