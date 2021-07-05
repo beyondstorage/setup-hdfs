@@ -8,7 +8,7 @@ function setup() {
 
     let installFolder: any = process.env.GITHUB_WORKSPACE + '/../'
     fs.access(installFolder, fs.constants.W_OK, (err) => {
-        console.log('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store Spark');
+        console.log('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store hdfs');
         installFolder = process.env.GITHUB_WORKSPACE
     });
 
@@ -58,6 +58,9 @@ function setup() {
             throw new Error(err);
         }
     })
+
+    exec("echo ${hdfsHome}")
+    exec("ls ${hdfsHome}")
 
     // Start hdfs daemon.
     exec("${hdfsHome}/bin/hdfs namenode -format", (err: any, stdout: any, stderr: any) => {
