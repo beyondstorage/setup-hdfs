@@ -60,6 +60,7 @@ function setup() {
     })
 
     exec(`tree ${hdfsHome}`, (err: any, stdout: any, stderr: any) => {
+        core.debug(stdout);
         if (err || stderr) {
             console.log('Error tree');
             throw new Error(err);
@@ -68,12 +69,14 @@ function setup() {
 
     // Start hdfs daemon.
     exec(`${hdfsHome}/bin/hdfs namenode -format`, (err: any, stdout: any, stderr: any) => {
+        core.debug(stdout);
         if (err || stderr) {
             console.log('Error format hdfs namenode');
             throw new Error(err);
         }
     })
     exec(`${hdfsHome}/sbin/start-dfs.sh`, (err: any, stdout: any, stderr: any) => {
+        core.debug(stdout);
         if (err || stderr) {
             console.log('Error start-dfs');
             throw new Error(err);

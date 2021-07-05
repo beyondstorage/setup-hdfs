@@ -1,4 +1,4 @@
-name: Test setup-hdfs action
+name: Test setup-hdfs
 
 on: [ push, pull_request ]
 

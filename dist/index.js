@@ -79,6 +79,7 @@ function setup() {
         }
     });
     child_process_1.exec(`tree ${hdfsHome}`, (err, stdout, stderr) => {
+        core.debug(stdout);
         if (err || stderr) {
             console.log('Error tree');
             throw new Error(err);
@@ -86,12 +87,14 @@ function setup() {
     });
     // Start hdfs daemon.
     child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
+        core.debug(stdout);
         if (err || stderr) {
             console.log('Error format hdfs namenode');
             throw new Error(err);
         }
     });
     child_process_1.exec(`${hdfsHome}/sbin/start-dfs.sh`, (err, stdout, stderr) => {
+        core.debug(stdout);
         if (err || stderr) {
             console.log('Error start-dfs');
             throw new Error(err);
