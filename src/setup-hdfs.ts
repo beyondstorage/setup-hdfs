@@ -18,7 +18,7 @@ function setup() {
     const hdfsUrl = `https://mirrors.gigenet.com/apache/hadoop/core/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
 
     // Download and setup hadoop.
-    var command = `cd /tmp &&
+    let command = `cd /tmp &&
   wget -q -O hdfs.tgz ${hdfsUrl} &&
   tar xzf hdfs.tgz -C ${installFolder} &&
   rm "hdfs.tgz"
@@ -34,42 +34,39 @@ function setup() {
     // Configure hdfs.
     const hdfsHome = installFolder + '/hdfs';
 
-    const core_site = `<configuration>
+    const coreSite = `<configuration>
     <property>
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
 </configuration>`
-    exec("echo ${core_site} > ${hdfsHome}/etc/hadoop/core-site.xml", (err: any, stdout: any, stderr: any) => {
+    exec(`echo ${coreSite} > ${hdfsHome}/etc/hadoop/core-site.xml`, (err: any, stdout: any, stderr: any) => {
         if (err || stderr) {
             console.log('Error setup core-site.xml');
             throw new Error(err);
         }
     })
-    const hdfs_site = `<configuration>
+    const hdfsSite = `<configuration>
     <property>
         <name>dfs.replication</name>
         <value>1</value>
     </property>
 </configuration>`
-    exec("echo ${hdfs_site} > ${hdfsHome}/etc/hadoop/hdfs-site.xml", (err: any, stdout: any, stderr: any) => {
+    exec(`echo ${hdfsSite} > ${hdfsHome}/etc/hadoop/hdfs-site.xml`, (err: any, stdout: any, stderr: any) => {
         if (err || stderr) {
             console.log('Error setup hdfs-site.xml');
             throw new Error(err);
         }
     })
 
-    exec("echo ${hdfsHome}")
-    exec("ls ${hdfsHome}")
-
     // Start hdfs daemon.
-    exec("${hdfsHome}/bin/hdfs namenode -format", (err: any, stdout: any, stderr: any) => {
+    exec(`${hdfsHome}/bin/hdfs namenode -format`, (err: any, stdout: any, stderr: any) => {
         if (err || stderr) {
             console.log('Error format hdfs namenode');
             throw new Error(err);
         }
     })
-    exec("${hdfsHome}/sbin/start-dfs.sh", (err: any, stdout: any, stderr: any) => {
+    exec(`${hdfsHome}/sbin/start-dfs.sh`, (err: any, stdout: any, stderr: any) => {
         if (err || stderr) {
             console.log('Error start-dfs');
             throw new Error(err);

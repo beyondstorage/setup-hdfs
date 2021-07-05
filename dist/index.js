@@ -33,7 +33,7 @@ function setup() {
     const hdfsVersion = core.getInput('hdfs-version');
     let installFolder = process.env.GITHUB_WORKSPACE + '/../';
     fs.access(installFolder, fs.constants.W_OK, (err) => {
-        console.log('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store Spark');
+        console.log('$GITHUB_WORKSPACE parent not writable. Using $GITHUB_WORKSPACE to store hdfs');
         installFolder = process.env.GITHUB_WORKSPACE;
     });
     // Full list here: http://www.apache.org/mirrors/
@@ -41,7 +41,7 @@ function setup() {
     // TODO: maybe we need to support user provided download url.
     const hdfsUrl = `https://mirrors.gigenet.com/apache/hadoop/core/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
     // Download and setup hadoop.
-    var command = `cd /tmp &&
+    let command = `cd /tmp &&
   wget -q -O hdfs.tgz ${hdfsUrl} &&
   tar xzf hdfs.tgz -C ${installFolder} &&
   rm "hdfs.tgz"
@@ -54,38 +54,38 @@ function setup() {
     });
     // Configure hdfs.
     const hdfsHome = installFolder + '/hdfs';
-    const core_site = `<configuration>
+    const coreSite = `<configuration>
     <property>
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
 </configuration>`;
-    child_process_1.exec("echo ${core_site} > ${hdfsHome}/etc/hadoop/core-site.xml", (err, stdout, stderr) => {
+    child_process_1.exec(`echo ${coreSite} > ${hdfsHome}/etc/hadoop/core-site.xml`, (err, stdout, stderr) => {
         if (err || stderr) {
             console.log('Error setup core-site.xml');
             throw new Error(err);
         }
     });
-    const hdfs_site = `<configuration>
+    const hdfsSite = `<configuration>
     <property>
         <name>dfs.replication</name>
         <value>1</value>
     </property>
 </configuration>`;
-    child_process_1.exec("echo ${hdfs_site} > ${hdfsHome}/etc/hadoop/hdfs-site.xml", (err, stdout, stderr) => {
+    child_process_1.exec(`echo ${hdfsSite} > ${hdfsHome}/etc/hadoop/hdfs-site.xml`, (err, stdout, stderr) => {
         if (err || stderr) {
             console.log('Error setup hdfs-site.xml');
             throw new Error(err);
         }
     });
     // Start hdfs daemon.
-    child_process_1.exec("${hdfsHome}/bin/hdfs namenode -format", (err, stdout, stderr) => {
+    child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
         if (err || stderr) {
             console.log('Error format hdfs namenode');
             throw new Error(err);
         }
     });
-    child_process_1.exec("${hdfsHome}/sbin/start-dfs.sh", (err, stdout, stderr) => {
+    child_process_1.exec(`${hdfsHome}/sbin/start-dfs.sh`, (err, stdout, stderr) => {
         if (err || stderr) {
             console.log('Error start-dfs');
             throw new Error(err);
