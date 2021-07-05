@@ -68,10 +68,13 @@ function setup() {
         yield writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
         const hdfsHome = yield tool_cache_1.cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
         // Setup self ssh connection.
-        const cmd = `ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa &&
+        // Fix permission issues: https://github.community/t/ssh-test-using-github-action/166717/12
+        const cmd = `chmod g-w $HOME                &&
+chmod o-w $HOME                                 &&
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa        &&
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys &&
-chmod 0600 ~/.ssh/authorized_keys &&
-eval \`ssh-agent\` &&
+chmod 0600 ~/.ssh/authorized_keys               &&
+eval \`ssh-agent\`                              &&
 ssh-add ~/.ssh/id_rsa
 `;
         child_process_1.exec(cmd, (err, stdout, stderr) => {
