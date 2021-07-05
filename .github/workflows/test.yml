@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        hdfs-version: [ 3.1.1 ]
+        hdfs-version: [ 3.3.1 ]
 
     steps:
       - name: Checkout
