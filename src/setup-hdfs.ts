@@ -1,9 +1,9 @@
 import * as core from '@actions/core';
+import {downloadTool, extractTar, cacheDir} from '@actions/tool-cache'
 import {exec} from 'child_process';
 import * as fs from 'fs';
 
-
-function setup() {
+async function setup() {
     const hdfsVersion = core.getInput('hdfs-version');
 
     let installFolder: any = process.env.GITHUB_WORKSPACE + '/../'
@@ -18,22 +18,10 @@ function setup() {
     // TODO: maybe we need to support user provided download url.
     const hdfsUrl = `https://mirrors.gigenet.com/apache/hadoop/core/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
 
-    // Download and setup hadoop.
-    let command = `cd /tmp &&
-  wget -q -O hdfs.tgz ${hdfsUrl} &&
-  tar xzf hdfs.tgz -C ${installFolder} &&
-  rm "hdfs.tgz"
-  ln -s "${installFolder}/hadoop-${hdfsVersion}" ${installFolder}/hdfs`
-
-    exec(command, (err: any, stdout: any, stderr: any) => {
-        if (err || stderr) {
-            core.error('Error downloading the Spark binary');
-            throw new Error(err);
-        }
-    });
-
-    // Configure hdfs.
-    const hdfsHome = fs.realpathSync(installFolder + '/hdfs');
+    // Download hdfs and extract.
+    const hdfsTar = await downloadTool(hdfsUrl);
+    const hdfsExtractedFolder = await extractTar(hdfsTar);
+    const hdfsHome = await cacheDir(hdfsExtractedFolder, 'hdfs', hdfsVersion);
 
     const coreSite = `<configuration>
     <property>
@@ -89,9 +77,9 @@ function setup() {
     })
 }
 
-try {
-    setup()
-} catch (error) {
-    core.error(error);
-    core.setFailed(error.message);
-}
+
+setup().catch((err) => {
+    core.error(err);
+    core.setFailed(err.message);
+})
+
