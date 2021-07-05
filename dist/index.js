@@ -67,12 +67,25 @@ function setup() {
 </configuration>`;
         yield writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
         const hdfsHome = yield tool_cache_1.cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
+        // Setup self ssh connection.
+        const cmd = `ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa &&
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys &&
+chmod 0600 ~/.ssh/authorized_keys
+`;
+        child_process_1.exec(cmd, (err, stdout, stderr) => {
+            core.info(stdout);
+            core.warning(stderr);
+            if (err) {
+                core.error('Setup self ssh failed');
+                throw new Error(err);
+            }
+        });
         // Start hdfs daemon.
         child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
             core.info(stdout);
             core.warning(stderr);
             if (err) {
-                core.error('Error format hdfs namenode');
+                core.error('Format hdfs namenode failed');
                 throw new Error(err);
             }
         });
@@ -80,7 +93,7 @@ function setup() {
             core.info(stdout);
             core.warning(stderr);
             if (err) {
-                core.error('Error start-dfs');
+                core.error('Call start-dfs failed');
                 throw new Error(err);
             }
         });
