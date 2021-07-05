@@ -2,6 +2,9 @@ This action sets up Apache Hadoop/HDFS in your environment for use in GitHub Act
 
 ## Statement
 
-This project is highly inspired by [setup-spark](https://github.com/vemonet/setup-spark).
+This project highly inspired by:
 
-Thanks to [@vemonet](https://github.com/vemonet/setup-spark).
+- [setup-spark](https://github.com/vemonet/setup-spark)
+- [setup-ipfs](https://github.com/ibnesayeed/setup-ipfs)
+
+Thanks to [@vemonet](https://github.com/vemonet) and [@ibnesayeed](https://github.com/ibnesayeed).

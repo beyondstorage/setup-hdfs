@@ -51,22 +51,22 @@ function setup() {
         const hdfsUrl = `https://mirrors.gigenet.com/apache/hadoop/core/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
         // Download hdfs and extract.
         const hdfsTar = yield tool_cache_1.downloadTool(hdfsUrl);
-        const hdfsExtractedFolder = yield tool_cache_1.extractTar(hdfsTar);
+        const hdfsFolder = (yield tool_cache_1.extractTar(hdfsTar)) + `/hadoop-${hdfsVersion}`;
         const coreSite = `<configuration>
     <property>
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
 </configuration>`;
-        yield writeFile(`${hdfsExtractedFolder}/etc/hadoop/core-site.xml`, coreSite);
+        yield writeFile(`${hdfsFolder}/etc/hadoop/core-site.xml`, coreSite);
         const hdfsSite = `<configuration>
     <property>
         <name>dfs.replication</name>
         <value>1</value>
     </property>
 </configuration>`;
-        yield writeFile(`${hdfsExtractedFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
-        const hdfsHome = yield tool_cache_1.cacheDir(hdfsExtractedFolder, 'hdfs', hdfsVersion);
+        yield writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
+        const hdfsHome = yield tool_cache_1.cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
         // Start hdfs daemon.
         child_process_1.exec(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
             core.debug(stdout);

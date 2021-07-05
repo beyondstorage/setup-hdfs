@@ -17,7 +17,7 @@ async function setup() {
 
     // Download hdfs and extract.
     const hdfsTar = await downloadTool(hdfsUrl);
-    const hdfsExtractedFolder = await extractTar(hdfsTar);
+    const hdfsFolder = await extractTar(hdfsTar) + `/hadoop-${hdfsVersion}`;
 
     const coreSite = `<configuration>
     <property>
@@ -25,7 +25,7 @@ async function setup() {
         <value>hdfs://localhost:9000</value>
     </property>
 </configuration>`
-    await writeFile(`${hdfsExtractedFolder}/etc/hadoop/core-site.xml`, coreSite);
+    await writeFile(`${hdfsFolder}/etc/hadoop/core-site.xml`, coreSite);
 
     const hdfsSite = `<configuration>
     <property>
@@ -33,10 +33,10 @@ async function setup() {
         <value>1</value>
     </property>
 </configuration>`
-    await writeFile(`${hdfsExtractedFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
+    await writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
 
-    const hdfsHome = await cacheDir(hdfsExtractedFolder, 'hdfs', hdfsVersion);
-    
+    const hdfsHome = await cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
+
     // Start hdfs daemon.
     exec(`${hdfsHome}/bin/hdfs namenode -format`, (err: any, stdout: any, stderr: any) => {
         core.debug(stdout);
