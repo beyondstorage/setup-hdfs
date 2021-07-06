@@ -13,7 +13,7 @@ steps:
 
   - uses: beyondstorage/setup-hdfs@master
     with:
-      hadoop-version: '3.3.1'
+      hdfs-version: '3.3.1'
 
   - run: curl ${namenode-addr}
 ```
