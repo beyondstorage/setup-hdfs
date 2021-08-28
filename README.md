@@ -15,7 +15,7 @@ steps:
     with:
       hdfs-version: '3.3.1'
 
-  - run: curl ${namenode-addr}
+  - run: curl ${{ env.HDFS_NAMENODE_ADDR }}
 ```
 
 ## Available versions
