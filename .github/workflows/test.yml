@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        hdfs-version: [ 3.3.1 ]
+        hdfs-version: [ "3.3.1" ]
 
     steps:
       - name: Checkout
@@ -27,6 +27,9 @@ jobs:
         uses: ./
         with:
           hdfs-version: ${{ matrix.hdfs-version }}
+
+      - name: Test namenode addr
+        run: echo ${{namenode-addr}}
 
       - name: Check hdfs
         run: curl ${{namenode-addr}}
