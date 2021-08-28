@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "tsc",
     "ncc": "ncc build lib/setup-hdfs.js",
-    "build": "tsc && ncc build lib/setup-hdfs.js",
+    "build": "tsc && ncc build lib/setup-hdfs.js && prettier --write **/*.ts",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "test": "jest"
