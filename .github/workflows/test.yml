@@ -29,4 +29,4 @@ jobs:
           hdfs-version: ${{ matrix.hdfs-version }}
 
       - name: Check hdfs
-        run: curl http://localhost:9870
+        run: curl ${namenode-addr}
