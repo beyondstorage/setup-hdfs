@@ -29,7 +29,7 @@ jobs:
           hdfs-version: ${{ matrix.hdfs-version }}
 
       - name: Test namenode addr
-        run: echo ${{namenode-addr}}
+        run: echo ${{env.namenode-addr}}
 
       - name: Check hdfs
-        run: curl ${{namenode-addr}}
+        run: curl ${{env.namenode-addr}}
