@@ -73,11 +73,13 @@ function setup() {
         const hdfsHome = yield tool_cache_1.cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
         // Setup self ssh connection.
         // Fix permission issues: https://github.community/t/ssh-test-using-github-action/166717/12
-        const cmd = `chmod g-w $HOME                &&
+        const cmd = `chmod g-w $HOME                  &&
 chmod o-w $HOME                                 &&
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa        &&
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys &&
 chmod 0600 ~/.ssh/authorized_keys               &&
+ssh-keyscan -H localhost >> ~/.ssh/known_hosts  &&
+chmod 0600 ~/.ssh/known_hosts                   &&
 eval \`ssh-agent\`                              &&
 ssh-add ~/.ssh/id_rsa
 `;
