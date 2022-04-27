@@ -1,2 +1,2 @@
 # Ignore dist changes
-dist/ -diff
+dist/index.js -diff
