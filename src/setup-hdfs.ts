@@ -10,10 +10,7 @@ async function setup() {
   // Fetch user input.
   const hdfsVersion = core.getInput('hdfs-version');
 
-  // Full list here: http://www.apache.org/mirrors/
-  //
-  // TODO: maybe we need to support user provided download url.
-  const hdfsUrl = `https://mirrors.gigenet.com/apache/hadoop/core/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
+  const hdfsUrl = `https://dlcdn.apache.org/hadoop/common/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
 
   // Download hdfs and extract.
   const hdfsTar = await downloadTool(hdfsUrl);
@@ -89,6 +86,7 @@ ssh-add ~/.ssh/id_rsa
 
   core.addPath(`${hdfsHome}/bin`);
   core.exportVariable('HDFS_NAMENODE_ADDR', '127.0.0.1:9000');
+  core.exportVariable('HADOOP_HOME', hdfsFolder);
 }
 
 setup().catch(err => {
