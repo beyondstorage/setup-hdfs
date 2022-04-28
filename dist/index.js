@@ -111,7 +111,7 @@ ssh-add ~/.ssh/id_rsa
         });
         core.addPath(`${hdfsHome}/bin`);
         core.exportVariable('HDFS_NAMENODE_ADDR', '127.0.0.1:9000');
-        core.exportVariable('HADOOP_HOME', hdfsFolder);
+        core.exportVariable('HADOOP_HOME', hdfsHome);
     });
 }
 setup().catch(err => {
