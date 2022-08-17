@@ -29,10 +29,6 @@ async function setup() {
         <name>dfs.replication</name>
         <value>1</value>
     </property>
-    <property>
-        <name>dfs.secondary.http.address</name>
-        <value>localhost:9100</value>
-    </property>
 </configuration>`;
   await writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
 

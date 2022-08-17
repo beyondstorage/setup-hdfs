@@ -65,10 +65,6 @@ function setup() {
         <name>dfs.replication</name>
         <value>1</value>
     </property>
-    <property>
-        <name>dfs.secondary.http.address</name>
-        <value>localhost:9100</value>
-    </property>
 </configuration>`;
         yield writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
         const hdfsHome = yield (0, tool_cache_1.cacheDir)(hdfsFolder, 'hdfs', hdfsVersion);
