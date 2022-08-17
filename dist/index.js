@@ -92,24 +92,6 @@ ssh-add ~/.ssh/id_rsa
                 throw new Error(err);
             }
         });
-        // Stop all before start to avoid flaky error
-        (0, child_process_1.exec)(`bash ${hdfsHome}/sbin/stop-all.sh`, (err, stdout, stderr) => {
-            core.info(stdout);
-            core.warning(stderr);
-            if (err) {
-                core.error('Stop all failed');
-                throw new Error(err);
-            }
-        });
-        // Start hdfs daemon.
-        (0, child_process_1.exec)(`${hdfsHome}/bin/hdfs namenode -format`, (err, stdout, stderr) => {
-            core.info(stdout);
-            core.warning(stderr);
-            if (err) {
-                core.error('Format hdfs namenode failed');
-                throw new Error(err);
-            }
-        });
         (0, child_process_1.exec)(`${hdfsHome}/sbin/start-dfs.sh`, (err, stdout, stderr) => {
             core.info(stdout);
             core.warning(stderr);

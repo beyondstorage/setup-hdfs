@@ -59,32 +59,6 @@ ssh-add ~/.ssh/id_rsa
     }
   });
 
-  // Stop all before start to avoid flaky error
-  exec(
-    `bash ${hdfsHome}/sbin/stop-all.sh`,
-    (err: any, stdout: any, stderr: any) => {
-      core.info(stdout);
-      core.warning(stderr);
-      if (err) {
-        core.error('Stop all failed');
-        throw new Error(err);
-      }
-    }
-  );
-
-  // Start hdfs daemon.
-  exec(
-    `${hdfsHome}/bin/hdfs namenode -format`,
-    (err: any, stdout: any, stderr: any) => {
-      core.info(stdout);
-      core.warning(stderr);
-      if (err) {
-        core.error('Format hdfs namenode failed');
-        throw new Error(err);
-      }
-    }
-  );
-
   exec(
     `${hdfsHome}/sbin/start-dfs.sh`,
     (err: any, stdout: any, stderr: any) => {
