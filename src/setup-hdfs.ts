@@ -60,14 +60,17 @@ ssh-add ~/.ssh/id_rsa
   });
 
   // Stop all before start to avoid flaky error
-  exec(`${hdfsHome}/sbin/stop-all.sh`, (err: any, stdout: any, stderr: any) => {
-    core.info(stdout);
-    core.warning(stderr);
-    if (err) {
-      core.error('Stop all failed');
-      throw new Error(err);
+  exec(
+    `bash ${hdfsHome}/sbin/stop-all.sh`,
+    (err: any, stdout: any, stderr: any) => {
+      core.info(stdout);
+      core.warning(stderr);
+      if (err) {
+        core.error('Stop all failed');
+        throw new Error(err);
+      }
     }
-  });
+  );
 
   // Start hdfs daemon.
   exec(

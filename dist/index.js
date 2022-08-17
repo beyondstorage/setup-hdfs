@@ -93,7 +93,7 @@ ssh-add ~/.ssh/id_rsa
             }
         });
         // Stop all before start to avoid flaky error
-        (0, child_process_1.exec)(`${hdfsHome}/sbin/stop-all.sh`, (err, stdout, stderr) => {
+        (0, child_process_1.exec)(`bash ${hdfsHome}/sbin/stop-all.sh`, (err, stdout, stderr) => {
             core.info(stdout);
             core.warning(stderr);
             if (err) {
