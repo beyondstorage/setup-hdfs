@@ -36,6 +36,16 @@ async function setup() {
 </configuration>`;
   await writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
 
+  const webHdfsSite = `
+<configuration>
+    <property>
+        <name>dfs.namenode.http-address</name>
+        <value>localhost:9870</value>
+    </property>
+</configuration>
+  `;
+  await writeFile(`${hdfsFolder}/etc/hadoopo/hdfs-site.xml`, webHdfsSite);
+
   const hdfsHome = await cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
 
   // Setup self ssh connection.
@@ -86,6 +96,7 @@ ssh-add ~/.ssh/id_rsa
 
   core.addPath(`${hdfsHome}/bin`);
   core.exportVariable('HDFS_NAMENODE_ADDR', '127.0.0.1:9000');
+  core.exportVariable('WEBHDFS_NAMENODE_ADDR', '127.0.0.1:9870');
   core.exportVariable('HADOOP_HOME', hdfsHome);
 }
 
