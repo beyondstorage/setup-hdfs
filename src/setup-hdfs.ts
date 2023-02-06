@@ -30,21 +30,15 @@ async function setup() {
         <value>1</value>
     </property>
     <property>
+        <name>dfs.namenode.http-address</name>
+        <value>localhost:9870</value>
+    </property>
+    <property>
         <name>dfs.secondary.http.address</name>
         <value>localhost:9100</value>
     </property>
 </configuration>`;
   await writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
-
-  const webHdfsSite = `
-<configuration>
-    <property>
-        <name>dfs.namenode.http-address</name>
-        <value>localhost:9870</value>
-    </property>
-</configuration>
-  `;
-  await writeFile(`${hdfsFolder}/etc/hadoopo/hdfs-site.xml`, webHdfsSite);
 
   const hdfsHome = await cacheDir(hdfsFolder, 'hdfs', hdfsVersion);
 

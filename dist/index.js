@@ -66,20 +66,15 @@ function setup() {
         <value>1</value>
     </property>
     <property>
+        <name>dfs.namenode.http-address</name>
+        <value>localhost:9870</value>
+    </property>
+    <property>
         <name>dfs.secondary.http.address</name>
         <value>localhost:9100</value>
     </property>
 </configuration>`;
         yield writeFile(`${hdfsFolder}/etc/hadoop/hdfs-site.xml`, hdfsSite);
-        const webHdfsSite = `
-<configuration>
-    <property>
-        <name>dfs.namenode.http-address</name>
-        <value>localhost:9870</value>
-    </property>
-</configuration>
-  `;
-        yield writeFile(`${hdfsFolder}/etc/hadoopo/hdfs-site.xml`, webHdfsSite);
         const hdfsHome = yield (0, tool_cache_1.cacheDir)(hdfsFolder, 'hdfs', hdfsVersion);
         // Setup self ssh connection.
         // Fix permission issues: https://github.community/t/ssh-test-using-github-action/166717/12
