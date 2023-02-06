@@ -34,5 +34,11 @@ jobs:
       - name: Test hadoop home
         run: echo ${{env.HADOOP_HOME}}
 
+      - name: Test WebHdfs namenode addr
+        run: echo ${{env.WEBHDFS_HADOOP_ADDR}}
+
       - name: Check hdfs
         run: curl ${{env.HDFS_NAMENODE_ADDR}}
+
+      - name: Check WebHDFS
+        run: curl -i -X GET -L http://${{env.HDFS_NAMENODE}}/webhdfs/v1/?op=GETFILESTATUS
