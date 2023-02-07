@@ -58,6 +58,10 @@ function setup() {
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
+    <property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>runner</value>
+    </property>
 </configuration>`;
         yield writeFile(`${hdfsFolder}/etc/hadoop/core-site.xml`, coreSite);
         const hdfsSite = `<configuration>
@@ -68,10 +72,6 @@ function setup() {
     <property>
         <name>dfs.webhdfs.enabled</name>
         <value>true</value>
-    </property>
-    <property>
-        <name>hadoop.http.staticuser.user</name>
-        <value>runner</value>
     </property>
     <property>
         <name>dfs.namenode.http-address</name>
