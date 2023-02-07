@@ -21,6 +21,10 @@ async function setup() {
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
+    <property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>runner</value>
+    </property>
 </configuration>`;
   await writeFile(`${hdfsFolder}/etc/hadoop/core-site.xml`, coreSite);
 
