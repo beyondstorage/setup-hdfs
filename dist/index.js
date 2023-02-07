@@ -66,6 +66,10 @@ function setup() {
         <value>1</value>
     </property>
     <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
         <name>dfs.namenode.http-address</name>
         <value>localhost:9870</value>
     </property>

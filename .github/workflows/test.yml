@@ -28,11 +28,11 @@ jobs:
         with:
           hdfs-version: ${{ matrix.hdfs-version }}
 
-      - name: Test namenode addr
-        run: echo ${{env.HDFS_NAMENODE_ADDR}}
-
       - name: Test hadoop home
         run: echo ${{env.HADOOP_HOME}}
 
       - name: Check hdfs
         run: curl ${{env.HDFS_NAMENODE_ADDR}}
+
+      - name: Check webhdfs
+        run: curl ${{env.HDFS_NAMENODE_HTTP_ADDR}}/webhdfs/v1/?op=LISTSTATUS
