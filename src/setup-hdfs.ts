@@ -34,6 +34,10 @@ async function setup() {
         <value>true</value>
     </property>
     <property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>runner</value>
+    </property>
+    <property>
         <name>dfs.namenode.http-address</name>
         <value>localhost:9870</value>
     </property>
