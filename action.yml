@@ -1,5 +1,5 @@
 ---
-name: 'Setup Apache HDFS'
+name: 'Setup Apache Hadoop'
 description: 'Set up Apache Hadoop/HDFS and add the command-line tools to the PATH.'
 author: 'beyondstorage'
 inputs:
