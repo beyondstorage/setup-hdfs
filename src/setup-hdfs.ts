@@ -10,7 +10,7 @@ async function setup() {
   // Fetch user input.
   const hdfsVersion = core.getInput('hdfs-version');
 
-  const hdfsUrl = `https://dlcdn.apache.org/hadoop/common/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
+  const hdfsUrl = `https://archive.apache.org/dist/hadoop/common/hadoop-${hdfsVersion}/hadoop-${hdfsVersion}.tar.gz`;
 
   // Download hdfs and extract.
   const hdfsTar = await downloadTool(hdfsUrl);
